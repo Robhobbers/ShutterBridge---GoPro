@@ -7,7 +7,6 @@ export const SITE_DESCRIPTION =
   "ESP32-S3 firmware linking Betaflight to DJI Osmo, DJI Action and GoPro cameras - live camera status on your FPV OSD, RC switches mapped to record, photo and mode.";
 
 export const GITHUB_URL = "https://github.com/Robhobbers/ShutterBridge---GoPro";
-export const YOUTUBE_URL = "https://youtube.com/@yarosfpv";
 
 export const BOARD_NAME = "Waveshare ESP32-S3-Zero";
 

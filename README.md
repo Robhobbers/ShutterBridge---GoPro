@@ -16,8 +16,8 @@ and mode.
 [![Built with PlatformIO](https://img.shields.io/badge/built%20with-PlatformIO-f5822a?style=flat-square&logo=platformio&logoColor=white)](https://platformio.org)
 
 [**⚡ USB firmware releases**](https://github.com/Robhobbers/ShutterBridge---GoPro/releases) &nbsp;·&nbsp;
-[**📖 Documentation**](https://shutterbridge.yarosfpv.com/docs) &nbsp;·&nbsp;
-[**🌐 Website**](https://shutterbridge.yarosfpv.com)
+[**📖 Documentation**](https://ibexfuel.com/docs) &nbsp;·&nbsp;
+[**🌐 Website**](https://ibexfuel.com)
 
 </div>
 
@@ -32,8 +32,10 @@ version and source revision in the serial startup log and configuration API; hov
 or long-press the version badge for build details.
 
 See [CHANGELOG.md](CHANGELOG.md), [USB release instructions](docs/USB_RELEASES.md)
-and the [validation record](docs/VALIDATION.md). The upstream documentation linked
-above remains useful for wiring; its installer serves upstream firmware.
+and the [validation record](docs/VALIDATION.md). The website and documentation
+links above target this fork at ibexfuel.com. See [website deployment](docs/WEBSITE_DEPLOYMENT.md)
+for the Cloudflare setup. The installer lists only published releases from this fork;
+draft releases are not visible to visitors.
 
 ## What it does
 
@@ -110,7 +112,7 @@ Use this fork’s USB release, or build from source:
 3. Flash the merged image at address `0x0`, or build and upload from this repository.
 4. Re-plug the board, connect to the `ShutterBridge` Wi-Fi access point (password `shutterbridge`), and open `http://10.0.0.1` to finish setup.
 
-See the [full documentation](https://shutterbridge.yarosfpv.com/docs) for wiring, Betaflight OSD setup and per-camera notes.
+See the [full documentation](https://ibexfuel.com/docs) for wiring, Betaflight OSD setup and per-camera notes.
 
 ## Building from source
 

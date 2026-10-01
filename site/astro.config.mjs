@@ -10,7 +10,7 @@ import cloudflare from '@astrojs/cloudflare';
 import remarkLocalizeDocLinks from './src/lib/remark-localize-doc-links.mjs';
 
 export default defineConfig({
-  site: 'https://shutterbridge.yarosfpv.com',
+  site: 'https://ibexfuel.com',
   compressHTML: true,
 
   markdown: {

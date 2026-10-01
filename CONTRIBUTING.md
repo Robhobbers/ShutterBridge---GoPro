@@ -6,12 +6,12 @@ or simply reporting how ShutterBridge behaves with your camera.
 ## Ways to help
 
 - **Report a camera.** Tried ShutterBridge with a camera? Tell us how it went via
-  the [camera compatibility report](https://github.com/YLabs-FPV/ShutterBridge/issues/new?template=camera_report.yml)
+  the [camera compatibility report](https://github.com/Robhobbers/ShutterBridge---GoPro/issues/new?template=camera_report.yml)
   issue. This is genuinely useful even when everything works - it's how the
   compatibility table grows.
-- **Report a bug** with the [bug report](https://github.com/YLabs-FPV/ShutterBridge/issues/new?template=bug_report.yml)
+- **Report a bug** with the [bug report](https://github.com/Robhobbers/ShutterBridge---GoPro/issues/new?template=bug_report.yml)
   template.
-- **Suggest a feature** with the [feature request](https://github.com/YLabs-FPV/ShutterBridge/issues/new?template=feature_request.yml)
+- **Suggest a feature** with the [feature request](https://github.com/Robhobbers/ShutterBridge---GoPro/issues/new?template=feature_request.yml)
   template.
 - **Improve the docs or code** with a pull request (see below).
 
