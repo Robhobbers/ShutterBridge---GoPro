@@ -1,25 +1,258 @@
 ---
-// Root entry point. Server-rendered so it can read the request headers and
-// redirect visitors to the best matching locale (/en/, /es/, /uk/).
-export const prerender = false;
+import BrandLayout from "../layouts/BrandLayout.astro";
 
-const available = ["en", "es", "uk"];
+export const prerender = true;
 
-const acceptLanguage = Astro.request.headers.get("accept-language") || "";
-const preferred = acceptLanguage
-  .split(",")
-  .map((part) => part.split(";")[0].trim().toLowerCase().split("-")[0]);
+const efforts = [
+  { duration: "1–2 hours", title: "Keep it simple", copy: "Understand when water is enough and when carbohydrate, sodium and a plan start to matter.", level: "Level 01" },
+  { duration: "2–6 hours", title: "Build steady intake", copy: "Turn an hourly target into a routine you can practise in training and repeat on race day.", level: "Level 02" },
+  { duration: "6–12 hours", title: "Plan for the long day", copy: "Balance fuel, fluid, sodium, flavour and tolerance as conditions and intensity change.", level: "Level 03" },
+  { duration: "12–24 hours", title: "Fuel the full journey", copy: "Build a flexible system for changing appetite, fatigue, weather and a very long time on your feet.", level: "Level 04" },
+];
 
-let target = "en";
-for (const lang of preferred) {
-  if (available.includes(lang)) {
-    target = lang;
-    break;
-  }
-}
-
-const cookie = Astro.cookies.get("preferred-language")?.value;
-if (cookie && available.includes(cookie)) target = cookie;
-
-return Astro.redirect(`/${target}/`);
+const ingredients = [
+  { name: "Carbohydrate", code: "CHO", copy: "The main fuel story for sustained endurance work—explained through useful ranges, sources and gut training." },
+  { name: "Fluid", code: "H₂O", copy: "Enough to support the effort without pretending every athlete or every day needs the same fixed volume." },
+  { name: "Sodium", code: "Na+", copy: "Put sweat, conditions and individual needs ahead of one-size-fits-all electrolyte marketing." },
+  { name: "Caffeine", code: "CAF", copy: "A useful tool for some athletes, with timing, dose and trade-offs presented just as clearly as the benefits." },
+];
 ---
+
+<BrandLayout
+  title="IbexFuel — Fuel Your Climb"
+  description="Simple, evidence-led endurance nutrition for runners, cyclists and triathletes. Clear formulas, practical guidance and no marketing fluff."
+>
+  <header class="site-header" id="top">
+    <div class="shell nav-shell">
+      <a class="brand-link" href="/" aria-label="IbexFuel home">
+        <img src="/brand/ibexfuel-mark.svg" width="48" height="48" alt="" />
+        <span>IBEXFUEL</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#fuel-guide">Fuel guide</a><a href="#science">Science</a><a href="#products">Products</a><a href="#about">About</a><a class="project-link" href="/en/">Projects</a>
+      </nav>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="sr-only">Open navigation</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#fuel-guide">Fuel guide</a><a href="#science">Science</a><a href="#products">Products</a><a href="#about">About</a><a href="/en/">Projects</a>
+    </nav>
+  </header>
+
+  <main id="main-content" class="brand-main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-pixel" aria-hidden="true"></span> Evidence-led endurance nutrition</p>
+        <h1 id="hero-title">Fuel Your<br /><span>Climb.</span></h1>
+        <p class="hero-intro">Sports nutrition made easier to understand. Clear formulas, practical fuelling guidance and current science for efforts from one hour to all day.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#fuel-guide">Explore the fuel guide</a>
+          <a class="button button-secondary" href="#science">How we use science</a>
+        </div>
+        <ul class="proof-strip" aria-label="IbexFuel principles">
+          <li><strong>1–24h</strong><span>Effort guides</span></li><li><strong>Open</strong><span>Formula logic</span></li><li><strong>Fair</strong><span>Cost per hour</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual" aria-label="IbexFuel summit route illustration">
+        <div class="route-grid" aria-hidden="true"></div>
+        <div class="sprite-card">
+          <span class="sprite-label">SUMMIT QUEST / 001</span>
+          <img src="/brand/ibexfuel-mark.svg" width="512" height="512" alt="Pixel-art ibex standing on a mountain summit" />
+        </div>
+        <div class="formula-card" aria-hidden="true"><span>FORMULA</span><b>OPEN</b><span>DOSE</span><b>CLEAR</b><span>EVIDENCE</span><b>LINKED</b></div>
+      </div>
+    </section>
+
+    <section class="effort-section" id="fuel-guide" aria-labelledby="effort-title">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">Choose your effort</p><h2 id="effort-title">Every climb needs a different plan.</h2></div>
+          <p>Start with duration, then account for intensity, weather and what your gut can tolerate. The full guides are being built with sources and review dates.</p>
+        </div>
+        <div class="effort-grid">
+          {efforts.map((effort) => (
+            <article class="effort-card"><span class="level">{effort.level}</span><p class="duration">{effort.duration}</p><h3>{effort.title}</h3><p>{effort.copy}</p><span class="coming">Guide in development</span></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="science-section" id="science" aria-labelledby="science-title">
+      <div class="shell science-grid">
+        <div class="science-intro">
+          <p class="eyebrow eyebrow-light">The formula, explained</p><h2 id="science-title">The label should never be a mystery.</h2>
+          <p>We separate what is well established, what is useful in practice and what is still emerging. Recommendations will show their sources and when they were last reviewed.</p>
+          <div class="science-rule"><span>NO PROPRIETARY BLENDS</span><span>NO MAGIC INGREDIENTS</span><span>NO HIDDEN DOSES</span></div>
+        </div>
+        <div class="ingredient-grid">
+          {ingredients.map((item) => (
+            <article class="ingredient-card"><span class="ingredient-code">{item.code}</span><h3>{item.name}</h3><p>{item.copy}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="products-section shell" id="products" aria-labelledby="products-title">
+      <div class="section-heading split-heading">
+        <div><p class="eyebrow">Products in development</p><h2 id="products-title">Build the system in the open.</h2></div>
+        <p>The first product direction will focus on useful carbohydrate, fluid and sodium delivery during endurance training and racing.</p>
+      </div>
+      <div class="development-card">
+        <div class="product-placeholder" aria-hidden="true"><span>IBEXFUEL</span><strong>01</strong><small>DURING / CONCEPT</small></div>
+        <div class="development-copy">
+          <span class="level">Development log / pre-launch</span><h3>Evidence first. Formula second. Packaging last.</h3>
+          <p>Product decisions will be documented around intended use, ingredient role, effective dose, flavour tolerance and cost per hour.</p>
+          <ol class="build-steps"><li><span>01</span> Define the athlete and effort</li><li><span>02</span> Review the weight of evidence</li><li><span>03</span> Test taste, tolerance and usability</li><li><span>04</span> Publish the formula and reasoning</li></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section" id="about" aria-labelledby="about-title">
+      <div class="shell about-grid">
+        <div><p class="eyebrow">Why IbexFuel</p><h2 id="about-title">Your climb is your own.</h2></div>
+        <div class="about-copy"><p class="about-lead">A first race. A faster finish. A sunrise on a mountain after moving all night. Performance means something different to every athlete.</p><p>IbexFuel exists to make the nutrition supporting those goals simpler, more transparent and more affordable—for everyday athletes as well as experienced competitors.</p></div>
+      </div>
+    </section>
+
+    <section class="projects-section shell" aria-labelledby="projects-title">
+      <div class="project-card">
+        <div><p class="eyebrow">IbexFuel projects</p><h2 id="projects-title">The workshop off the trail.</h2><p>IbexFuel also hosts independent technical experiments. They are separate from the nutrition brand, but built with the same preference for useful information and open work.</p></div>
+        <a class="button button-secondary" href="/en/">Visit the camera-control project</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <a class="brand-link footer-brand" href="#top"><img src="/brand/ibexfuel-mark.svg" width="48" height="48" alt="" /><span>IBEXFUEL</span></a>
+      <p>Fuel Your Climb.<br /><span>Simple fuel. Proven science.</span></p>
+      <p class="legal">© {new Date().getFullYear()} IbexFuel<br />Brand and products in development.</p>
+    </div>
+  </footer>
+
+  <script>
+    const button = document.querySelector<HTMLButtonElement>(".menu-button");
+    const mobileNav = document.querySelector<HTMLElement>("#mobile-nav");
+    const closeMenu = () => {
+      if (!button || !mobileNav) return;
+      button.setAttribute("aria-expanded", "false");
+      const label = button.querySelector<HTMLElement>(".sr-only");
+      if (label) label.textContent = "Open navigation";
+      mobileNav.hidden = true;
+    };
+    button?.addEventListener("click", () => {
+      if (!mobileNav) return;
+      const open = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!open));
+      const label = button.querySelector<HTMLElement>(".sr-only");
+      if (label) label.textContent = open ? "Open navigation" : "Close navigation";
+      mobileNav.hidden = open;
+    });
+    mobileNav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    window.addEventListener("resize", () => { if (window.innerWidth >= 800) closeMenu(); });
+  </script>
+</BrandLayout>
+
+<style>
+  :global(html) { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+  :global(.brand-main) { max-width: none; overflow: hidden; }
+  :global(.ibex-body a:focus-visible), :global(.ibex-body button:focus-visible) { outline: 3px solid #f06432; outline-offset: 4px; }
+  :global(.ibex-body *) { box-sizing: border-box; }
+  .shell { width: min(1180px, calc(100% - 2rem)); margin-inline: auto; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(22,53,47,.14); background: rgba(245,247,241,.94); backdrop-filter: blur(12px); }
+  .nav-shell { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .brand-link { display: inline-flex; align-items: center; gap: .75rem; color: #16352f; font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; text-decoration: none; }
+  .brand-link img { width: 44px; height: 44px; border-radius: 7px; image-rendering: pixelated; }
+  .desktop-nav { display: none; align-items: center; gap: .25rem; }
+  .desktop-nav a, .mobile-nav a { min-height: 44px; display: inline-flex; align-items: center; padding: .65rem .9rem; color: #31423c; font-weight: 700; text-decoration: none; border-radius: .45rem; transition: background-color .2s ease, color .2s ease; }
+  .desktop-nav a:hover, .mobile-nav a:hover { color: #16352f; background: #cfe9e3; }
+  .desktop-nav .project-link { margin-left: .4rem; border: 1px solid #aac3bc; }
+  .menu-button { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid #aac3bc; border-radius: .55rem; color: #16352f; background: transparent; }
+  .menu-button svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .mobile-nav { padding: .5rem 1rem 1rem; border-top: 1px solid rgba(22,53,47,.12); background: #f5f7f1; }
+  .mobile-nav a { display: flex; width: 100%; }
+  .hero { min-height: calc(100svh - 76px); padding-block: clamp(4rem, 8vw, 7.5rem); display: grid; align-items: center; gap: 4rem; }
+  .hero-copy { position: relative; z-index: 2; }
+  .eyebrow { margin: 0 0 1rem; color: #426056; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .76rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .status-pixel { display: inline-block; width: 10px; height: 10px; margin-right: .65rem; background: #f06432; box-shadow: 5px -5px 0 #f06432; }
+  h1 { max-width: 8ch; margin: 0; color: #16352f; font-size: clamp(4.25rem, 12vw, 8.5rem); line-height: .78; letter-spacing: -.065em; text-transform: uppercase; }
+  h1 span { color: #f06432; }
+  .hero-intro { max-width: 37rem; margin: 2.2rem 0 0; color: #3f514a; font-size: clamp(1.1rem, 2vw, 1.35rem); line-height: 1.55; }
+  .hero-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .75rem; }
+  .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: .8rem 1.15rem; border: 2px solid #16352f; border-radius: .45rem; font-weight: 700; text-decoration: none; transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+  .button:hover { transform: translateY(-2px); }
+  .button-primary { color: #f5f7f1; background: #16352f; }
+  .button-primary:hover { color: #16352f; background: #a6be75; }
+  .button-secondary { color: #16352f; background: transparent; }
+  .button-secondary:hover { color: #16352f; background: #cfe9e3; }
+  .proof-strip { max-width: 42rem; margin: 3rem 0 0; padding: 1.25rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; border-top: 1px solid #b8cbc5; list-style: none; }
+  .proof-strip li { display: flex; flex-direction: column; gap: .2rem; }
+  .proof-strip strong { color: #16352f; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.15rem; }
+  .proof-strip span { color: #62736d; font-size: .85rem; }
+  .hero-visual { position: relative; min-height: 470px; display: grid; place-items: center; }
+  .route-grid { position: absolute; inset: 0; opacity: .55; background-image: linear-gradient(rgba(22,53,47,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(22,53,47,.09) 1px, transparent 1px); background-size: 32px 32px; mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); }
+  .sprite-card { position: relative; width: min(390px, 82vw); padding: 1rem; border: 1px solid #afc3bc; background: #fff; box-shadow: 18px 18px 0 #cfe9e3; }
+  .sprite-label { display: block; margin-bottom: .8rem; color: #426056; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; letter-spacing: .14em; }
+  .sprite-card img { width: 100%; height: auto; display: block; image-rendering: pixelated; }
+  .formula-card { position: absolute; right: -1rem; bottom: 1rem; width: 205px; display: grid; grid-template-columns: 1fr auto; gap: .55rem .8rem; padding: 1rem; border: 2px solid #16352f; background: #f5f7f1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; letter-spacing: .08em; box-shadow: 8px 8px 0 #f06432; }
+  .formula-card b { color: #16352f; }
+  .effort-section { padding-block: 7rem; background: #fff; }
+  .section-heading { margin-bottom: 3rem; }
+  .section-heading h2, .science-intro h2, .about-section h2, .project-card h2 { margin: 0; color: #16352f; font-size: clamp(2.5rem, 6vw, 4.8rem); line-height: .95; letter-spacing: -.045em; }
+  .split-heading { display: grid; gap: 1.5rem; align-items: end; }
+  .split-heading > p { max-width: 34rem; margin: 0; color: #52635d; font-size: 1.05rem; line-height: 1.65; }
+  .effort-grid { display: grid; gap: 1rem; }
+  .effort-card { min-height: 295px; display: flex; flex-direction: column; padding: 1.5rem; border: 1px solid #c7d7d1; border-top: 6px solid #16352f; background: #f5f7f1; transition: transform .2s ease, box-shadow .2s ease; }
+  .effort-card:hover { transform: translateY(-4px); box-shadow: 8px 8px 0 #cfe9e3; }
+  .level { color: #f06432; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .duration { margin: 1.5rem 0 .45rem; color: #16352f; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.05rem; font-weight: 700; }
+  .effort-card h3 { margin: 0 0 .8rem; color: #16352f; font-size: 1.45rem; }
+  .effort-card p:not(.duration) { margin: 0; color: #52635d; line-height: 1.55; }
+  .coming { margin-top: auto; padding-top: 1.2rem; color: #62736d; font-size: .8rem; font-weight: 700; }
+  .science-section { padding-block: 7rem; color: #f5f7f1; background: #16352f; }
+  .science-grid { display: grid; gap: 3.5rem; }
+  .eyebrow-light { color: #a6be75; }
+  .science-intro h2 { color: #f5f7f1; }
+  .science-intro > p:not(.eyebrow) { max-width: 36rem; color: #cfe9e3; font-size: 1.05rem; line-height: 1.65; }
+  .science-rule { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .55rem; }
+  .science-rule span { padding: .45rem .65rem; border: 1px solid #66837a; color: #f5f7f1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .66rem; letter-spacing: .08em; }
+  .ingredient-grid { display: grid; gap: 1px; background: #66837a; border: 1px solid #66837a; }
+  .ingredient-card { position: relative; padding: 1.5rem; background: #1c443c; }
+  .ingredient-code { display: inline-grid; min-width: 54px; min-height: 54px; place-items: center; border: 1px solid #a6be75; color: #a6be75; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; }
+  .ingredient-card h3 { margin: 1.2rem 0 .55rem; color: #f5f7f1; font-size: 1.35rem; }
+  .ingredient-card p { margin: 0; color: #cfe9e3; line-height: 1.55; }
+  .products-section { padding-block: 7rem; }
+  .development-card { display: grid; overflow: hidden; border: 1px solid #afc3bc; background: #fff; }
+  .product-placeholder { min-height: 370px; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; color: #f5f7f1; background: #f06432; }
+  .product-placeholder span, .product-placeholder small { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; letter-spacing: .16em; }
+  .product-placeholder strong { font-size: clamp(8rem, 24vw, 14rem); line-height: .75; letter-spacing: -.08em; }
+  .development-copy { padding: clamp(1.5rem, 5vw, 4rem); }
+  .development-copy h3 { max-width: 18ch; margin: 1rem 0; color: #16352f; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -.035em; }
+  .development-copy > p { max-width: 38rem; color: #52635d; line-height: 1.65; }
+  .build-steps { margin: 2rem 0 0; padding: 0; display: grid; gap: .75rem; list-style: none; }
+  .build-steps li { min-height: 48px; display: flex; align-items: center; gap: 1rem; border-top: 1px solid #d5e0dc; color: #31423c; font-weight: 700; }
+  .build-steps span { color: #f06432; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .75rem; }
+  .about-section { padding-block: 7rem; background: #cfe9e3; }
+  .about-grid { display: grid; gap: 2rem; }
+  .about-copy { max-width: 42rem; }
+  .about-copy p { color: #31423c; font-size: 1.05rem; line-height: 1.65; }
+  .about-copy .about-lead { margin-top: 0; color: #16352f; font-size: 1.35rem; font-weight: 700; }
+  .projects-section { padding-block: 6rem; }
+  .project-card { padding: clamp(1.5rem, 5vw, 4rem); display: grid; gap: 2rem; align-items: end; border: 2px solid #16352f; box-shadow: 12px 12px 0 #a6be75; }
+  .project-card p:not(.eyebrow) { max-width: 44rem; color: #52635d; line-height: 1.65; }
+  .project-card .button { justify-self: start; }
+  .site-footer { padding-block: 3.5rem; color: #f5f7f1; background: #16352f; }
+  .footer-grid { display: grid; gap: 2rem; align-items: center; }
+  .footer-brand { color: #f5f7f1; }
+  .site-footer p { margin: 0; line-height: 1.5; }
+  .site-footer p span { color: #cfe9e3; }
+  .site-footer .legal { color: #a9c0b9; font-size: .85rem; }
+  @media (min-width: 700px) { .effort-grid { grid-template-columns: repeat(2, 1fr); } .ingredient-grid { grid-template-columns: repeat(2, 1fr); } .development-card { grid-template-columns: .72fr 1.28fr; } .about-grid { grid-template-columns: 1fr 1fr; } .footer-grid { grid-template-columns: 1fr 1fr 1fr; } .footer-grid .legal { text-align: right; } }
+  @media (min-width: 800px) { .desktop-nav { display: flex; } .menu-button, .mobile-nav { display: none; } .hero { grid-template-columns: 1.08fr .92fr; } .split-heading { grid-template-columns: 1.2fr .8fr; } .project-card { grid-template-columns: 1fr auto; } }
+  @media (min-width: 1040px) { .effort-grid { grid-template-columns: repeat(4, 1fr); } .science-grid { grid-template-columns: .8fr 1.2fr; align-items: start; } }
+  @media (max-width: 500px) { .hero { padding-top: 3rem; } .hero-visual { min-height: 390px; } .formula-card { right: 0; bottom: 0; } .proof-strip { gap: .4rem; } .proof-strip strong { font-size: 1rem; } .proof-strip span { font-size: .72rem; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } .button, .effort-card { transition: none; } .button:hover, .effort-card:hover { transform: none; } }
+</style>

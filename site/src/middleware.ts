@@ -34,6 +34,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const { url, request, cookies, redirect } = context;
   const { pathname } = url;
 
+  // The root domain is the IbexFuel nutrition homepage. The existing
+  // multilingual technical project remains below /en, /es and /uk.
+  if (pathname === "/") {
+    return next();
+  }
+
   // Skip static assets and API routes - they have no locale.
   if (
     pathname.startsWith("/_") ||

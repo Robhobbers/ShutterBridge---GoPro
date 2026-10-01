@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+  <title id="title">IbexFuel summit sprite</title>
+  <desc id="desc">A pixel-art ibex with orange horns standing on a mountain summit.</desc>
+  <rect width="512" height="512" rx="56" fill="#16352F"/>
+  <path d="M48 456v-48h48v-48h48v-48h48v-48h48v-48h32v48h48v48h48v48h48v48h48v48z" fill="#CFE9E3"/>
+  <path d="M144 360v-48h48v-48h48v-48h32v48h48v48h48v48h-64v-32h-48v32h-48v-32h-32v32z" fill="#A6BE75"/>
+  <path d="M128 176h32v-32h144v16h48v64H176v-16h-48z" fill="#F5F7F1"/>
+  <path d="M288 192v-80h32V80h64v48h-48v80z" fill="#F5F7F1"/>
+  <rect x="176" y="208" width="32" height="64" fill="#F5F7F1"/>
+  <rect x="272" y="208" width="32" height="64" fill="#F5F7F1"/>
+  <path d="M128 176H96v-32h32z" fill="#F5F7F1"/>
+  <path d="M320 96h-32V64h-32V32h96v32h-48v32zM368 96h-32V56h-24V24h80v32h-24z" fill="#F06432"/>
+  <rect x="352" y="96" width="10" height="10" fill="#16352F"/>
+  <rect y="456" width="512" height="56" fill="#F06432"/>
+</svg>
+

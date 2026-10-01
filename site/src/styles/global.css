@@ -2,23 +2,23 @@
 
 :root {
   color-scheme: light;
-  --color-bg: 252, 252, 252;
-  --color-text: 34, 39, 42;
-  --color-text-muted: 100, 116, 139;
-  --color-text-light: 100, 116, 139;
-  --color-primary: 42, 82, 190;
-  --color-primary-hover: 30, 64, 175;
-  --color-secondary: 240, 240, 242;
-  --color-secondary-hover: 226, 232, 240;
-  --color-accent: 234, 88, 12;
-  --color-accent-hover: 194, 65, 12;
+  --color-bg: 245, 247, 241;
+  --color-text: 32, 41, 37;
+  --color-text-muted: 82, 99, 93;
+  --color-text-light: 98, 115, 109;
+  --color-primary: 22, 53, 47;
+  --color-primary-hover: 28, 68, 60;
+  --color-secondary: 207, 233, 227;
+  --color-secondary-hover: 183, 218, 209;
+  --color-accent: 240, 100, 50;
+  --color-accent-hover: 215, 79, 32;
   --color-danger: 220, 38, 38;
   --color-success: 16, 185, 129;
-  --color-border: 226, 232, 240;
+  --color-border: 199, 215, 209;
   --color-card-bg: 255, 255, 255;
   --color-card-shadow: 0, 0, 0, 0.05;
   --color-header-bg: 255, 255, 255;
-  --color-footer-bg: 241, 245, 249;
+  --color-footer-bg: 22, 53, 47;
 }
 
 @media (prefers-color-scheme: dark) {
