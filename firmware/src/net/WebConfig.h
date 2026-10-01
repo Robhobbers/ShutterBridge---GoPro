@@ -58,6 +58,7 @@ class WebConfig {
     bool                lastArmed_ = false;
     bool                wantAp_    = true;
     uint32_t            wantSince_ = 0;
+    uint32_t            rebootAtMs_ = 0;
 
     // Async BLE scan state - /scan never blocks the loop (see handleScan).
     enum ScanState { SCAN_IDLE, SCAN_RUNNING };

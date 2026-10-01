@@ -15,13 +15,25 @@ and mode.
 [![Betaflight](https://img.shields.io/badge/Betaflight-2025.12%2B-32c766?style=flat-square)](https://betaflight.com)
 [![Built with PlatformIO](https://img.shields.io/badge/built%20with-PlatformIO-f5822a?style=flat-square&logo=platformio&logoColor=white)](https://platformio.org)
 
-[**⚡ Flash it now**](https://shutterbridge.yarosfpv.com/flash) &nbsp;·&nbsp;
+[**⚡ USB firmware releases**](https://github.com/Robhobbers/ShutterBridge---GoPro/releases) &nbsp;·&nbsp;
 [**📖 Documentation**](https://shutterbridge.yarosfpv.com/docs) &nbsp;·&nbsp;
 [**🌐 Website**](https://shutterbridge.yarosfpv.com)
 
 </div>
 
 ---
+
+## This fork
+
+This is **Robhobbers/ShutterBridge---GoPro**, based on YarosFPV's ShutterBridge.
+Use this repository's [USB releases](https://github.com/Robhobbers/ShutterBridge---GoPro/releases),
+not the upstream web flasher, to install this fork. Firmware reports the fork name,
+version and source revision in the serial startup log and configuration API; hover
+or long-press the version badge for build details.
+
+See [CHANGELOG.md](CHANGELOG.md), [USB release instructions](docs/USB_RELEASES.md)
+and the [validation record](docs/VALIDATION.md). The upstream documentation linked
+above remains useful for wiring; its installer serves upstream firmware.
 
 ## What it does
 
@@ -91,11 +103,11 @@ _\* The Osmo Nano can't switch photo/video over BLE, so the shutter captures a p
 
 ## Getting started
 
-The easiest path is the browser-based flasher - no toolchain required:
+Use this fork’s USB release, or build from source:
 
 1. Plug the board into a data-capable USB-C port.
-2. Open the [**web flasher**](https://shutterbridge.yarosfpv.com/flash) in Chrome or Edge and click **Install**.
-3. Pick the board's serial port when prompted and wait for it to finish.
+2. Download this fork's USB release and follow [USB release instructions](docs/USB_RELEASES.md).
+3. Flash the merged image at address `0x0`, or build and upload from this repository.
 4. Re-plug the board, connect to the `ShutterBridge` Wi-Fi access point (password `shutterbridge`), and open `http://10.0.0.1` to finish setup.
 
 See the [full documentation](https://shutterbridge.yarosfpv.com/docs) for wiring, Betaflight OSD setup and per-camera notes.

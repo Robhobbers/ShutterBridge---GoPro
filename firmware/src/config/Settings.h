@@ -62,7 +62,7 @@ struct Settings {
 
     void setDefaults();
     void load();  // from NVS (falls back to defaults if missing/incompatible)
-    void save();  // to NVS
+    bool save();  // true only after NVS write and read-back succeed  // to NVS
 };
 
 extern Settings g_settings;

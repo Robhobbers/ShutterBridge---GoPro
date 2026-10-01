@@ -23,7 +23,11 @@ class ChannelActions {
     bool             armPrimed_              = false;
 
     enum PendingRec : uint8_t { REC_NONE, REC_START, REC_STOP };
-    void       scheduleRec(Camera& cam, bool start);
+    void       scheduleRec(bool start);
+    void       processPending(Camera& cam, uint32_t now);
+    bool       armRecordingRequested_ = false;
+    bool       startAttempted_ = false;
+    uint32_t   lastStartAttemptMs_ = 0;
     uint16_t   startDelayMs_ = 0;
     uint16_t   stopDelayMs_  = 0;
     PendingRec pendingRec_   = REC_NONE;

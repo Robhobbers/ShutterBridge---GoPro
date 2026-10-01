@@ -54,7 +54,7 @@ static void cameraTask(void*) {
 void setup() {
     Serial.begin(CONSOLE_BAUD);
     delay(300);
-    Serial.println("\nShutterBridge starting");
+    Serial.printf("\n%s v%s (%s) starting\n", FW_VARIANT, FW_VERSION, FW_BUILD_SHA);
 
     g_settings.load();
     Serial.printf("[cfg] v=%u opMode=%u disarmedOnly=%u ssid=\"%s\"\n", g_settings.version,

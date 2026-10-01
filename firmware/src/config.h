@@ -1,6 +1,8 @@
 #pragma once
 
-#define FW_VERSION "0.1.0"
+#define FW_VERSION "0.1.1-rob.1"
+#define FW_VARIANT "Robhobbers/ShutterBridge---GoPro"
+#include "build_identity.h"
 
 #define FC_UART       Serial1
 #define FC_BAUD       115200
