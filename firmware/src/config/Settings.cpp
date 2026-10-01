@@ -1,6 +1,7 @@
 #include "config/Settings.h"
 
 #include <Preferences.h>
+#include <cstring>
 
 Settings g_settings;
 
@@ -56,8 +57,14 @@ void Settings::load() {
     }
 }
 
-void Settings::save() {
-    prefs.begin("shutter", /*readOnly=*/false);
-    prefs.putBytes("cfg", this, sizeof(*this));
+bool Settings::save() {
+    if (!prefs.begin("shutter", /*readOnly=*/false))
+        return false;
+    const size_t written = prefs.putBytes("cfg", this, sizeof(*this));
+    Settings verified;
+    const bool ok = written == sizeof(*this) &&
+                    prefs.getBytes("cfg", &verified, sizeof(verified)) == sizeof(verified) &&
+                    std::memcmp(this, &verified, sizeof(verified)) == 0;
     prefs.end();
+    return ok;
 }

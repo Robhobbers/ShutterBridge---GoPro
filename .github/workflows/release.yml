@@ -33,8 +33,11 @@ jobs:
 
       - name: Resolve version
         id: ver
+        env:
+          RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
         run: |
-          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          TAG="$RELEASE_TAG"
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?$ ]] || exit 1
           VERSION="${TAG#v}"
           echo "tag=$TAG"        >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
@@ -48,6 +51,13 @@ jobs:
             echo "::error::FW_VERSION in firmware/src/config.h ($FW) does not match the release tag (${{ steps.ver.outputs.version }}). Bump config.h and re-tag."
             exit 1
           fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run regression tests
+        run: bash tests/run.sh
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -64,7 +74,7 @@ jobs:
           restore-keys: pio-${{ runner.os }}-
 
       - name: Install PlatformIO & esptool
-        run: pip install --upgrade platformio esptool
+        run: pip install platformio "esptool>=4.8,<5"
 
       - name: Build firmware
         working-directory: firmware
@@ -92,8 +102,8 @@ jobs:
       - name: Build single merged image (for manual esptool flashing)
         run: |
           set -euo pipefail
-          MERGED="dist/ShutterBridge-${{ steps.ver.outputs.version }}-merged.bin"
-          esptool --chip esp32s3 merge_bin -o "$MERGED" \
+          MERGED="dist/ShutterBridge-GoPro-Robhobbers-${{ steps.ver.outputs.version }}-merged.bin"
+          python -m esptool --chip esp32s3 merge_bin -o "$MERGED" \
             --flash_mode dio --flash_freq 80m --flash_size 4MB \
             "$OFFSET_BOOTLOADER" dist/bootloader.bin \
             "$OFFSET_PARTITIONS" dist/partitions.bin \
@@ -103,11 +113,23 @@ jobs:
           echo "Merged image:"
           ls -l "$MERGED"
 
+      - name: Add identity, instructions and checksums
+        env:
+          RELEASE_TAG: ${{ steps.ver.outputs.tag }}
+        run: python scripts/release_metadata.py dist "$RELEASE_TAG"
+
       - name: Draft release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.ver.outputs.tag }}
-          name: ShutterBridge ${{ steps.ver.outputs.tag }}
+          name: ShutterBridge GoPro (Robhobbers) ${{ steps.ver.outputs.tag }} — ESP32-S3-Zero USB
           draft: true
+          prerelease: ${{ contains(steps.ver.outputs.version, '-') }}
+          body: |
+            USB-C firmware for Robhobbers/ShutterBridge---GoPro.
+            Target: Waveshare ESP32-S3-Zero, 4 MB flash.
+            See USB_FLASHING.md for installation and settings-preserving updates.
+            release.json records the exact source commit; verify assets with SHA256SUMS.
+            Automated checks do not replace physical camera validation.
           generate_release_notes: true
           files: dist/*

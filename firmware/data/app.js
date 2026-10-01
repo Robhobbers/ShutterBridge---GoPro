@@ -49,6 +49,7 @@ async function loadConfig() {
   boundMac = cfg.mac || "";
   boundType = +cfg.ctype || 0;
   $("ver").textContent = cfg.fw ? "v" + cfg.fw : "";
+  $("ver").title = [cfg.variant, cfg.build].filter(Boolean).join(" · ");
 
   $("osd").innerHTML = [0, 1, 2, 3]
     .map((i) => `<div class="row"><label>Custom Msg ${i}</label><div class="ctl">` +
@@ -185,25 +186,28 @@ async function wizScan() {
     el.addEventListener("click", () => wizBind(el.dataset.mac)));
 }
 
-function wizBind(mac) {
+let pairingSavePending = false;
+async function wizBind(mac) {
+  if (pairingSavePending) return;
+  pairingSavePending = true;
   boundMac = mac;
   boundType = wizType;
   renderBound();
   wizShow("wizDone");
-  // Fire the save but don't await it: the device persists to NVS, and a slow
-  // or dropped response must not freeze the countdown.
-  postSave().catch(() => { });
-  let n = 3;
-  $("wizCount").textContent = n;
-  const t = setInterval(() => {
-    n--;
-    $("wizCount").textContent = Math.max(n, 0);
-    if (n <= 0) {
-      clearInterval(t);
-      closeWizard();
-      rebootFlow();
-    }
-  }, 1000);
+  try {
+    const result = await postSave();
+    closeWizard();
+    if (result === "reboot") await rebootFlow(false);
+    else toast("Pairing saved");
+  } catch (e) {
+    // A missing response is ambiguous: the device may already have saved and
+    // restarted. Never send an independent reboot after an unconfirmed save.
+    closeWizard();
+    setDirty(true);
+    toast("Save not confirmed. Reconnect and check the selected camera, then retry if needed.", true);
+  } finally {
+    pairingSavePending = false;
+  }
 }
 
 // ---- Save ----
@@ -232,19 +236,27 @@ function collectConfig() {
 }
 
 async function postSave() {
-  const r = await fetch("/save", { method: "POST", body: collectConfig() });
-  if (!r.ok) throw new Error("HTTP " + r.status);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  try {
+    const r = await fetch("/save", {
+      method: "POST", body: collectConfig(), signal: controller.signal,
+    });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const result = (await r.text()).trim();
+    if (result !== "ok" && result !== "reboot") throw new Error("Unexpected save response");
+    return result;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function onSave() {
   const btn = $("save");
   btn.disabled = true;
-  const rebootNeeded =
-    boundMac !== (cfg.mac || "") || boundType !== (+cfg.ctype || 0) ||
-    $("ssid").value !== cfg.ssid || $("pass").value !== cfg.pass;
   try {
-    await postSave();
-    if (rebootNeeded) return rebootFlow();
+    const result = await postSave();
+    if (result === "reboot") return rebootFlow(false);
     cfg.mac = boundMac; cfg.ctype = boundType;
     cfg.ssid = $("ssid").value; cfg.pass = $("pass").value;
     setDirty(false);
@@ -256,10 +268,10 @@ async function onSave() {
   }
 }
 
-async function rebootFlow() {
+async function rebootFlow(trigger = true) {
   $("rebooting").hidden = false;
   $("rebootRefresh").hidden = true;
-  fetch("/reboot").catch(() => { });
+  if (trigger) fetch("/reboot").catch(() => { });
   await sleep(3000);
   for (let tries = 0; ; tries++) {
     await sleep(2000);

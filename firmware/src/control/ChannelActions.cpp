@@ -15,40 +15,68 @@ void ChannelActions::loadFromModes(const ModeRange* modes, ShutterVideoMode svm,
     pendingRec_   = REC_NONE;  // cancel any queued record command on reconfigure
     primed_       = false;
     armPrimed_    = false;
+    armRecordingRequested_ = false;
+    startAttempted_ = false;
 }
 
-void ChannelActions::scheduleRec(Camera& cam, bool start) {
-    const uint16_t delay = start ? startDelayMs_ : stopDelayMs_;
-    if (delay == 0) {
-        start ? cam.startRecord() : cam.stopRecord();
-        return;
-    }
+void ChannelActions::scheduleRec(bool start) {
+    // Every new demand supersedes the old timer, including zero-delay commands.
     pendingRec_  = start ? REC_START : REC_STOP;
-    pendingAtMs_ = millis() + delay;
+    pendingAtMs_ = millis() + (start ? startDelayMs_ : stopDelayMs_);
+}
+
+void ChannelActions::processPending(Camera& cam, uint32_t now) {
+    if (pendingRec_ == REC_NONE || (int32_t)(now - pendingAtMs_) < 0)
+        return;
+    if (pendingRec_ == REC_START && opMode_ == OpMode::RecordOnArm) {
+        const CameraStatus& s = cam.status();
+        // A late connection must not consume the recording request. Never act on
+        // stale readiness or send a video start while the camera is in photo mode.
+        if (!cam.isConnected() || !s.lastUpdateMs ||
+            (int32_t)(now - s.lastUpdateMs) >= 2500 || !s.ready || s.mode == CamMode::Photo)
+            return;
+        if (!s.isRecording()) {
+            cam.startRecord();
+            startAttempted_ = true;
+            lastStartAttemptMs_ = now;
+        }
+    } else {
+        (pendingRec_ == REC_START) ? cam.startRecord() : cam.stopRecord();
+    }
+    pendingRec_ = REC_NONE;
 }
 
 void ChannelActions::update(const RcState& rc, Camera& cam, bool armed) {
     const uint32_t now = millis();
 
-    if (pendingRec_ != REC_NONE && (int32_t)(now - pendingAtMs_) >= 0) {
-        (pendingRec_ == REC_START) ? cam.startRecord() : cam.stopRecord();
-        pendingRec_ = REC_NONE;
-    }
-
-    // Record-on-arm
+    // Apply input changes BEFORE expiring timers: a re-arm at the stop deadline
+    // must cancel the stop rather than briefly ending the clip.
     if (opMode_ == OpMode::RecordOnArm) {
-        if (!armPrimed_) {
+        if (!armPrimed_ || armed != prevArmed_) {
+            const bool initial = !armPrimed_;
             prevArmed_ = armed;
             armPrimed_ = true;
-        } else if (armed != prevArmed_) {
-            prevArmed_ = armed;
-            scheduleRec(cam, armed);
+            armRecordingRequested_ = armed;
+            startAttempted_ = false;
+            if (armed || !initial)
+                scheduleRec(armed);
         }
+        // Reconcile an ongoing arm demand after reconnect or an unconfirmed start.
+        // Rate-limit requests; telemetry, not a successful BLE write, proves recording.
+        if (armRecordingRequested_ && pendingRec_ == REC_NONE &&
+            !cam.status().isRecording() &&
+            (!startAttempted_ || (uint32_t)(now - lastStartAttemptMs_) >= 20000)) {
+            pendingRec_ = REC_START;
+            pendingAtMs_ = now;
+        }
+        processPending(cam, now);
         return;
     }
 
-    if (!rc.valid)
+    if (!rc.valid) {
+        processPending(cam, now);
         return;
+    }
 
     bool active[FUNC_COUNT];
     for (int i = 0; i < FUNC_COUNT; i++) {
@@ -81,9 +109,10 @@ void ChannelActions::update(const RcState& rc, Camera& cam, bool armed) {
                 if (rising)
                     cam.takePhoto();
             } else if (svm_ == ShutterVideoMode::TwoPos) {
-                scheduleRec(cam, rising);
+                scheduleRec(rising);
             } else if (rising) {
-                scheduleRec(cam, !cam.status().isRecording());
+                scheduleRec(pendingRec_ != REC_NONE ? pendingRec_ != REC_START
+                                                      : !cam.status().isRecording());
             }
             continue;
         }
@@ -113,4 +142,5 @@ void ChannelActions::update(const RcState& rc, Camera& cam, bool armed) {
             }
         }
     }
+    processPending(cam, now);
 }

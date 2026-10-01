@@ -10,6 +10,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  regression:
+    name: Recording and pairing regressions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: bash tests/run.sh
+
   changes:
     name: Detect changes
     runs-on: ubuntu-latest
@@ -26,6 +36,8 @@ jobs:
           filters: |
             firmware:
               - 'firmware/**'
+              - 'tests/**'
+              - 'scripts/**'
               - '.github/workflows/ci.yml'
             site:
               - 'site/**'

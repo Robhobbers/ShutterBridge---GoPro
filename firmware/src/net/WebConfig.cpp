@@ -109,6 +109,8 @@ void WebConfig::poll(bool armed) {
     // Reconnect throttling in the camera backends keys off this: only slow BLE reconnects
     // when someone is actually on the Web UI
     g_apHasClient = apUp_ && WiFi.softAPgetStationNum() > 0;
+    if (rebootAtMs_ && (int32_t)(now - rebootAtMs_) >= 0)
+        ESP.restart();
 }
 
 void WebConfig::handleConfig() {
@@ -142,6 +144,8 @@ void WebConfig::handleConfig() {
     doc["tz"]    = s_.tzOffsetMin;
     doc["clk"]   = s_.clockSync;  // sync camera clock from FC GPS time
     doc["fw"]    = FW_VERSION;
+    doc["variant"] = FW_VARIANT;
+    doc["build"] = FW_BUILD_SHA;
 
     String out;
     serializeJson(doc, out);
@@ -180,6 +184,8 @@ void WebConfig::handleStatus() {
 }
 
 void WebConfig::handleSave() {
+    const Settings previous = s_;
+
     for (int i = 0; i < 4; i++) {
         int v = server_.arg("s" + String(i)).toInt();
         if (v >= 0 && v < (int)OsdField::_Count)
@@ -214,9 +220,24 @@ void WebConfig::handleSave() {
     s_.webuiDisarmedOnly = server_.hasArg("dis") ? 1 : 0;
     s_.bleTxPower        = (uint8_t)constrain(server_.arg("ble").toInt(), 0, 2);
 
-    s_.save();
+    if (!s_.save()) {
+        s_ = previous;
+        server_.send(500, "text/plain", "Settings could not be verified in storage; not rebooting");
+        return;
+    }
     dirty_ = true;
-    server_.send(200, "text/plain", "ok");
+    const bool needReboot = s_.camType != previous.camType ||
+                            strcmp(s_.camMac, previous.camMac) != 0 ||
+                            strcmp(s_.apSsid, previous.apSsid) != 0 ||
+                            strcmp(s_.apPass, previous.apPass) != 0;
+    // Own the reboot on the device: browser disconnects cannot interrupt this
+    // sequence, and reboot is never scheduled before a verified persistent save.
+    if (needReboot) {
+        rebootAtMs_ = millis() + 1000;
+        if (!rebootAtMs_)
+            rebootAtMs_ = 1;
+    }
+    server_.send(200, "text/plain", needReboot ? "reboot" : "ok");
 }
 
 void WebConfig::handleScan() {
