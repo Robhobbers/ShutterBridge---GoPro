@@ -83,3 +83,19 @@ recording telemetry. This patch does not add FC stale-arm/failsafe policy, GoPro
 mode readout, or automatic retries/confirmation for failed stop commands. A manual
 stop on the camera while record-on-arm demand remains active can be followed by an
 automatic restart after the retry interval; use Manual mode for independent takes.
+
+## Hosted verification and release
+
+The implementation commit `bd3624ea3b45b47d40d11afb0a84e44f40ff43fd` passed:
+
+- [GitHub CI: regression checks, firmware/LittleFS and website builds](https://github.com/Robhobbers/ShutterBridge---GoPro/actions/runs/36865927611).
+- [Tagged USB release workflow, including regressions, merge and packaging](https://github.com/Robhobbers/ShutterBridge---GoPro/actions/runs/36865966068).
+
+Tag `v0.1.1-rob.1` points to that implementation commit. The resulting draft
+prerelease contains all five flash parts, the named merged image, `release.json`,
+`SHA256SUMS` and `USB_FLASHING.md` (nine uploaded assets). It is intentionally not
+published as stable; the physical checks above remain outstanding.
+
+Review and merge: [pull request #1](https://github.com/Robhobbers/ShutterBridge---GoPro/pull/1).
+[Draft release](https://github.com/Robhobbers/ShutterBridge---GoPro/releases/tag/untagged-31f0f0f6f56d61c7318d)
+requires repository maintainer access. This validation-log update changes no firmware.
