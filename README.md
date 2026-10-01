@@ -76,7 +76,7 @@ The Osmo Action series and the Osmo 360 share the same DJI R-SDK backend.
 | Preset switching (Video / Photo / Timelapse)      |       ❌        |        ❌        |       ✅       |
 | Load preset by ID                                 |       ❌        |        ❌        |       ✅       |
 | Clock sync from FC GPS time                       |       ❌        |        ❌        |       ✅       |
-| Tested on real hardware                           |       ✅        |  ✅ (Action 4)   |       ❌       |
+| Tested on real hardware                           |       ✅        |  ✅ (Action 4)   |       ✅       |
 
 _\* The Osmo Nano can't switch photo/video over BLE, so the shutter captures a photo only when the camera is already set to Photo mode. The Action / 360 / GoPro switch modes automatically or via the Camera Mode switch._
 
