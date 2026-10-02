@@ -34,7 +34,7 @@ const next = nextDoc
   : null;
 
 const linkClass = (id: string) => [
-  "block px-3 py-2 rounded-lg text-sm transition-colors no-underline",
+  "block px-3 py-2 rounded-[4px] text-sm transition-colors no-underline",
   id === currentId
     ? "font-semibold bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-primary))]"
     : "text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-secondary))] hover:text-[rgb(var(--color-text))]",
@@ -116,6 +116,7 @@ const linkClass = (id: string) => [
     </div>
 
     <article class="prose-doc min-w-0">
+      <p class="doc-kicker">IBEX LABS / FIELD MANUAL</p>
       <h1 class="text-4xl font-bold">{title}</h1>
       {
         description && (
@@ -195,12 +196,26 @@ const linkClass = (id: string) => [
 </script>
 
 <style>
+  .doc-kicker {
+    margin: 0 0 .65rem;
+    color: rgb(var(--color-accent));
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+  }
+  .prose-doc > h1 {
+    padding-bottom: 1rem;
+    border-bottom: 4px solid rgb(var(--color-primary));
+  }
   .prose-doc :global(h2) {
     margin-top: 2.5rem;
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
     font-weight: 700;
     scroll-margin-top: 6rem;
+    padding-left: .8rem;
+    border-left: 5px solid rgb(var(--color-accent));
   }
   .prose-doc :global(h3) {
     margin-top: 1.75rem;
@@ -227,6 +242,8 @@ const linkClass = (id: string) => [
   .prose-doc :global(img) {
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
+    border: 1px solid rgb(var(--color-border));
+    box-shadow: 8px 8px 0 rgb(var(--color-secondary));
   }
   .prose-doc :global(a) {
     text-decoration: underline;
@@ -251,7 +268,7 @@ const linkClass = (id: string) => [
     background: rgb(var(--color-secondary));
   }
   .prose-doc :global(blockquote) {
-    border-left: 3px solid rgb(var(--color-primary));
+    border-left: 5px solid rgb(var(--color-accent));
     padding: 0.25rem 0 0.25rem 1rem;
     margin: 0 0 1rem 0;
     color: rgb(var(--color-text-muted));

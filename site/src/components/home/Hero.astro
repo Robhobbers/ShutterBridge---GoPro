@@ -7,52 +7,26 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<section class="px-6 pt-12 pb-4 md:pt-18 md:pb-4">
-  <div class="max-w-4xl mx-auto text-center">
-    <Icon
-      name="aperture"
-      class="mx-auto h-16 w-16 md:h-24 md:w-24 mb-6 text-[rgb(var(--color-primary))]"
-    />
-    <h1 class="text-5xl md:text-7xl font-bold tracking-tight">
-      <span class="text-[rgb(var(--color-primary))]">Shutter</span><span
-        class="text-[rgb(var(--color-text))]">Bridge</span
-      >
-    </h1>
-    <p class="mt-2 text-[rgb(var(--color-text-muted))]">
-      <a href={GITHUB_URL} class="text-[rgb(var(--color-primary))] hover:underline">Robhobbers fork</a>
-      &middot; ibexfuel.com
-    </p>
-    <p class="italic text-[rgb(var(--color-text-muted))]">
-      {t("hero.by")} <a
-        href="https://yarosfpv.com"
-        target="_blank"
-        class="text-[rgb(var(--color-primary))] hover:underline">YarosFPV</a
-      >
-    </p>
-
-    <p class="mt-5 text-xl md:text-2xl font-medium">
-      {t("hero.slogan")}
-    </p>
-
-    <p
-      class="mt-4 text-base md:text-lg text-[rgb(var(--color-text-muted))] max-w-2xl mx-auto"
-    >
-      {t("hero.subtitle")}
-    </p>
-
-    <div
-      class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3"
-    >
+<section class="project-hero px-6 py-16 md:py-24">
+  <div class="max-w-6xl mx-auto grid gap-14 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
+    <div>
+      <p class="mission-label"><span aria-hidden="true"></span> IBEX LABS / CAMERA CONTROL</p>
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight uppercase">
+        <span class="text-[rgb(var(--color-primary))]">Shutter</span><span class="text-[rgb(var(--color-text))]">Bridge</span>
+      </h1>
+      <p class="mt-5 text-xl md:text-2xl font-bold max-w-xl">{t("hero.slogan")}</p>
+      <p class="mt-4 text-base md:text-lg text-[rgb(var(--color-text-muted))] max-w-2xl">{t("hero.subtitle")}</p>
+      <div class="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
       <a
         href={getLocalizedUrl(lang, "/flash")}
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary-hover))] transition-colors no-underline"
+        class="hero-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[5px] font-semibold no-underline"
       >
         <Icon name="mdi:flash" class="w-5 h-5" />
         {t("hero.flash")}
       </a>
       <a
         href={getLocalizedUrl(lang, "/docs")}
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-secondary))] transition-colors no-underline text-[rgb(var(--color-text))]"
+        class="hero-secondary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[5px] font-semibold border-2 border-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-secondary))] transition-colors no-underline text-[rgb(var(--color-text))]"
       >
         <Icon name="mdi:book-open-variant" class="w-5 h-5" />
         {t("hero.docs")}
@@ -60,11 +34,42 @@ const t = useTranslations(lang);
       <a
         href={GITHUB_URL}
         target="_blank"
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-secondary))] transition-colors no-underline text-[rgb(var(--color-text))]"
+        class="hero-secondary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[5px] font-semibold border-2 border-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-secondary))] transition-colors no-underline text-[rgb(var(--color-text))]"
       >
         <Icon name="mdi:github" class="w-5 h-5" />
         {t("hero.source")}
       </a>
+      </div>
+      <p class="credit mt-8 text-[rgb(var(--color-text-muted))]"><a href={GITHUB_URL}>Robhobbers fork</a> · {t("hero.by")} <a href="https://yarosfpv.com" target="_blank">YarosFPV</a></p>
+    </div>
+    <div class="mission-panel" aria-label="ShutterBridge system overview">
+      <span class="panel-code">PROJECT / SB-01</span>
+      <div class="panel-icon"><Icon name="aperture" class="w-28 h-28 md:w-36 md:h-36" /></div>
+      <div class="signal-line"><span>FLIGHT CONTROLLER</span><b>→</b><span>ESP32</span><b>→</b><span>CAMERA</span></div>
+      <div class="panel-status"><span></span> OPEN SOURCE / FIELD READY</div>
     </div>
   </div>
 </section>
+
+<style>
+  .project-hero { position: relative; overflow: hidden; }
+  .project-hero h1 { font-size: clamp(2.7rem, 12vw, 4.5rem); line-height: .9; letter-spacing: -.055em; }
+  .project-hero h1 span { display: block; }
+  .mission-label, .panel-code, .panel-status, .signal-line, .credit { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .mission-label { margin-bottom: 1rem; color: rgb(var(--color-text-muted)); font-size: .72rem; font-weight: 700; letter-spacing: .14em; }
+  .mission-label span { display: inline-block; width: 9px; height: 9px; margin-right: .65rem; background: rgb(var(--color-accent)); box-shadow: 5px -5px 0 rgb(var(--color-accent)); }
+  .hero-primary { color: #f5f7f1; background: #16352f; border: 2px solid #16352f; box-shadow: 6px 6px 0 rgb(var(--color-accent)); }
+  .hero-primary:hover { color: #16352f; background: rgb(var(--color-olive)); }
+  :global(html.dark) .hero-primary { color: #16352f; background: #cfe9e3; border-color: #cfe9e3; }
+  .credit { font-size: .72rem; letter-spacing: .04em; }
+  .mission-panel { min-height: 390px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid rgb(var(--color-primary)); background: rgb(var(--color-card-bg)); box-shadow: 16px 16px 0 rgb(var(--color-secondary)); }
+  .panel-code { color: rgb(var(--color-text-muted)); font-size: .68rem; letter-spacing: .15em; }
+  .panel-icon { display: grid; place-items: center; color: rgb(var(--color-primary)); }
+  .signal-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .55rem; color: rgb(var(--color-text-muted)); font-size: .61rem; font-weight: 700; letter-spacing: .05em; }
+  .signal-line b { color: rgb(var(--color-accent)); }
+  .panel-status { padding-top: 1rem; border-top: 1px solid rgb(var(--color-border)); color: rgb(var(--color-text)); font-size: .66rem; font-weight: 700; letter-spacing: .08em; }
+  .panel-status span { display: inline-block; width: 8px; height: 8px; margin-right: .5rem; background: rgb(var(--color-olive)); }
+  @media (min-width: 640px) {
+    .project-hero h1 span { display: inline; }
+  }
+</style>

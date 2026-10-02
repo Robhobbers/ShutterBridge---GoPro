@@ -19,50 +19,56 @@
   --color-card-shadow: 0, 0, 0, 0.05;
   --color-header-bg: 255, 255, 255;
   --color-footer-bg: 22, 53, 47;
+  --color-olive: 166, 190, 117;
+  --color-grid: 22, 53, 47;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     color-scheme: dark;
-    --color-bg: 17, 24, 39;
-    --color-text: 241, 245, 249;
-    --color-text-muted: 148, 163, 184;
-    --color-text-light: 148, 163, 184;
-    --color-primary: 96, 165, 250;
-    --color-primary-hover: 147, 197, 253;
-    --color-secondary: 31, 41, 55;
-    --color-secondary-hover: 55, 65, 81;
-    --color-accent: 249, 115, 22;
-    --color-accent-hover: 251, 146, 60;
+    --color-bg: 14, 37, 33;
+    --color-text: 245, 247, 241;
+    --color-text-muted: 193, 214, 207;
+    --color-text-light: 166, 190, 181;
+    --color-primary: 207, 233, 227;
+    --color-primary-hover: 166, 190, 117;
+    --color-secondary: 28, 68, 60;
+    --color-secondary-hover: 38, 84, 74;
+    --color-accent: 240, 100, 50;
+    --color-accent-hover: 255, 129, 82;
     --color-danger: 248, 113, 113;
     --color-success: 52, 211, 153;
-    --color-border: 55, 65, 81;
-    --color-card-bg: 23, 30, 45;
+    --color-border: 72, 111, 100;
+    --color-card-bg: 24, 58, 51;
     --color-card-shadow: 0, 0, 0, 0.2;
-    --color-header-bg: 17, 24, 39;
-    --color-footer-bg: 17, 24, 39;
+    --color-header-bg: 14, 37, 33;
+    --color-footer-bg: 9, 28, 25;
+    --color-olive: 166, 190, 117;
+    --color-grid: 207, 233, 227;
   }
 }
 
 :root.dark {
   color-scheme: dark;
-  --color-bg: 17, 24, 39;
+  --color-bg: 14, 37, 33;
   --color-text: 241, 245, 249;
   --color-text-muted: 148, 163, 184;
   --color-text-light: 148, 163, 184;
-  --color-primary: 96, 165, 250;
-  --color-primary-hover: 147, 197, 253;
-  --color-secondary: 31, 41, 55;
-  --color-secondary-hover: 55, 65, 81;
-  --color-accent: 249, 115, 22;
-  --color-accent-hover: 251, 146, 60;
+  --color-primary: 207, 233, 227;
+  --color-primary-hover: 166, 190, 117;
+  --color-secondary: 28, 68, 60;
+  --color-secondary-hover: 38, 84, 74;
+  --color-accent: 240, 100, 50;
+  --color-accent-hover: 255, 129, 82;
   --color-danger: 248, 113, 113;
   --color-success: 52, 211, 153;
-  --color-border: 55, 65, 81;
-  --color-card-bg: 23, 30, 45;
+  --color-border: 72, 111, 100;
+  --color-card-bg: 24, 58, 51;
   --color-card-shadow: 0, 0, 0, 0.2;
-  --color-header-bg: 17, 24, 39;
-  --color-footer-bg: 17, 24, 39;
+  --color-header-bg: 14, 37, 33;
+  --color-footer-bg: 9, 28, 25;
+  --color-olive: 166, 190, 117;
+  --color-grid: 207, 233, 227;
 }
 
 @font-face {
@@ -101,6 +107,20 @@
       color 0.3s ease;
   }
 
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.28;
+    background-image:
+      linear-gradient(rgba(var(--color-grid), 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--color-grid), 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, black, transparent 65%);
+  }
+
   input,
   select {
     outline: none;
@@ -113,6 +133,7 @@
   h5,
   h6 {
     line-height: 1.2;
+    letter-spacing: -0.025em;
   }
 
   a {
@@ -160,6 +181,16 @@
     max-width: 1300px;
     margin: 0 auto;
   }
+}
+
+::selection {
+  color: rgb(var(--color-bg));
+  background: rgb(var(--color-olive));
+}
+
+:focus-visible {
+  outline: 3px solid rgb(var(--color-accent));
+  outline-offset: 3px;
 }
 
 ::-webkit-scrollbar {

@@ -38,9 +38,9 @@ const features = FEATURE_SUPPORT.map((support, i) => ({
 <div class="grid gap-5 md:grid-cols-3">
   {
     CAMERAS.map((cam, i) => (
-      <div class="rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card-bg))] p-6 shadow-sm">
+      <div class="camera-card border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card-bg))] p-6">
         <div class="flex items-center justify-between gap-2">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-text-muted))]">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[3px] text-xs font-medium bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-text-muted))]">
             {cam.tag}
           </span>
           {cam.tested ? (
@@ -61,7 +61,7 @@ const features = FEATURE_SUPPORT.map((support, i) => ({
 </div>
 
 <div
-  class="mt-6 hidden sm:block overflow-x-auto rounded-2xl border border-[rgb(var(--color-border))]"
+  class="matrix-table mt-6 hidden sm:block overflow-x-auto border border-[rgb(var(--color-border))]"
 >
   <table class="w-full text-sm border-collapse">
     <thead>
@@ -93,6 +93,12 @@ const features = FEATURE_SUPPORT.map((support, i) => ({
     </tbody>
   </table>
 </div>
+
+<style>
+  .camera-card { border-top: 5px solid rgb(var(--color-primary)); transition: transform .2s ease, box-shadow .2s ease; }
+  .camera-card:hover { transform: translateY(-4px); box-shadow: 8px 8px 0 rgb(var(--color-secondary)); }
+  .matrix-table { box-shadow: 8px 8px 0 rgb(var(--color-secondary)); }
+</style>
 
 <div class="mt-6 space-y-3 sm:hidden">
   {

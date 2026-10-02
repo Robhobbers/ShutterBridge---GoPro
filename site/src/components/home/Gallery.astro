@@ -21,7 +21,8 @@ const slots = media.map((m, i) => ({ ...m, ...items[i] }));
 
 <section class="px-6 pt-8 pb-4" id="gallery">
   <div class="max-w-7xl mx-auto">
-    <h2 class="text-3xl font-bold text-center">{t("gallery.title")}</h2>
+    <p class="section-kicker">FIELD TEST / 01</p>
+    <h2 class="text-3xl md:text-5xl font-bold text-center">{t("gallery.title")}</h2>
     <p class="mt-2 text-center text-[rgb(var(--color-text-muted))]">
       {t("gallery.subtitle")}
     </p>
@@ -30,7 +31,7 @@ const slots = media.map((m, i) => ({ ...m, ...items[i] }));
       {
         slots.map((s) => (
           <figure>
-            <div class="group relative aspect-video rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-secondary))] overflow-hidden">
+            <div class="gallery-frame group relative aspect-video border-2 border-[rgb(var(--color-primary))] bg-[rgb(var(--color-secondary))] overflow-hidden">
               {s.type === "video" ? (
                 <video
                   class="w-full h-full object-cover"
@@ -72,6 +73,8 @@ const slots = media.map((m, i) => ({ ...m, ...items[i] }));
 </section>
 
 <style>
+  .section-kicker { margin: 0 0 .8rem; text-align: center; color: rgb(var(--color-accent)); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; font-weight: 700; letter-spacing: .14em; }
+  .gallery-frame { box-shadow: 8px 8px 0 rgb(var(--color-secondary)); }
   /* Default (auto): use system preference */
   .light-only {
     display: block;

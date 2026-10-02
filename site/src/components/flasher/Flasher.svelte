@@ -260,7 +260,7 @@
 </script>
 
 <div
-  class="rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card-bg))] p-6 md:p-8 shadow-sm"
+  class="flasher-panel border-2 border-[rgb(var(--color-primary))] bg-[rgb(var(--color-card-bg))] p-6 md:p-8"
 >
   {#if state === "unsupported"}
     <div
@@ -282,7 +282,7 @@
   {:else}
     <div class="flex flex-col items-center text-center">
       <div
-        class="flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(var(--color-primary),0.1)] text-[rgb(var(--color-primary))]"
+        class="flex items-center justify-center w-14 h-14 rounded-[4px] bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-primary))]"
       >
         {#if state === "done"}
           <CheckCircle class="w-7 h-7 text-emerald-500" />
@@ -364,7 +364,7 @@
 
           <button
             on:click={flash}
-            class="inline-flex items-center gap-2 px-6 py-3 my-2 rounded-lg font-semibold text-white bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary-hover))] transition-colors"
+            class="install-button inline-flex items-center gap-2 px-6 py-3 my-2 rounded-[5px] font-semibold transition-colors"
           >
             <Zap class="w-5 h-5" />
             Install
@@ -415,3 +415,10 @@
     {/if}
   {/if}
 </div>
+
+<style>
+  .flasher-panel { box-shadow: 12px 12px 0 rgb(var(--color-secondary)); }
+  .install-button { color: #f5f7f1; background: #16352f; border: 2px solid #16352f; box-shadow: 6px 6px 0 rgb(var(--color-accent)); }
+  .install-button:hover { color: #16352f; background: rgb(var(--color-olive)); }
+  :global(html.dark) .install-button { color: #16352f; background: #cfe9e3; border-color: #cfe9e3; }
+</style>

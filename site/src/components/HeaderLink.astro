@@ -24,9 +24,9 @@ const isActive =
   href={href}
   class:list={[
     className,
-    "inline-flex items-center gap-2 py-2 px-3 rounded-lg text-[rgb(var(--color-primary))] no-underline transition-colors",
+    "inline-flex items-center gap-2 py-2 px-3 rounded-[5px] text-[rgb(var(--color-text))] font-semibold no-underline transition-colors",
     {
-      "font-bold bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-primary))]":
+      "font-bold bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-primary))] shadow-[inset_0_-3px_0_rgb(var(--color-accent))]":
         isActive,
       "hover:bg-[rgb(var(--color-secondary))]": !isActive,
     },

@@ -12,7 +12,8 @@ const required = d<{ name: string; detail: string }[]>("requirements.items");
 
 <section class="px-6 py-12" id="requirements">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold text-center">{t("requirements.title")}</h2>
+    <p class="section-kicker">SYSTEM / 03</p>
+    <h2 class="text-3xl md:text-5xl font-bold text-center">{t("requirements.title")}</h2>
     <p class="mt-2 text-center text-[rgb(var(--color-text-muted))]">
       {t("requirements.subtitle")}
     </p>
@@ -20,8 +21,8 @@ const required = d<{ name: string; detail: string }[]>("requirements.items");
     <div class="mt-4 grid gap-5 md:grid-cols-3">
       {
         required.map((item, i) => (
-          <div class="rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card-bg))] p-6 shadow-sm">
-            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-[rgba(var(--color-primary),0.1)] text-[rgb(var(--color-primary))]">
+          <div class="system-card border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card-bg))] p-6">
+            <div class="flex items-center justify-center w-12 h-12 rounded-[4px] bg-[rgb(var(--color-secondary))] text-[rgb(var(--color-primary))]">
               <Icon
                 name={icons[i]}
                 class={icons[i] === "betaflight" ? "w-7 h-7" : "w-6 h-6"}
@@ -37,3 +38,9 @@ const required = d<{ name: string; detail: string }[]>("requirements.items");
     </div>
   </div>
 </section>
+
+<style>
+  .section-kicker { margin: 0 0 .8rem; text-align: center; color: rgb(var(--color-accent)); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; font-weight: 700; letter-spacing: .14em; }
+  .system-card { border-top: 5px solid rgb(var(--color-primary)); transition: transform .2s ease, box-shadow .2s ease; }
+  .system-card:hover { transform: translateY(-4px); box-shadow: 8px 8px 0 rgb(var(--color-secondary)); }
+</style>

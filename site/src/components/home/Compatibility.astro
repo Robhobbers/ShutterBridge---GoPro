@@ -8,10 +8,15 @@ const t = useTranslations(lang);
 
 <section class="px-6 pt-12 pb-4" id="cameras">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold text-center">{t("compat.title")}</h2>
+    <p class="section-kicker">COMPATIBILITY / 02</p>
+    <h2 class="text-3xl md:text-5xl font-bold text-center">{t("compat.title")}</h2>
     <p class="mt-2 mb-4 text-center text-[rgb(var(--color-text-muted))]">
       {t("compat.subtitle")}
     </p>
     <CameraMatrix />
   </div>
 </section>
+
+<style>
+  .section-kicker { margin: 0 0 .8rem; text-align: center; color: rgb(var(--color-accent)); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; font-weight: 700; letter-spacing: .14em; }
+</style>

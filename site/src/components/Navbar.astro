@@ -18,23 +18,16 @@ const links = [
 ---
 
 <header
-  class="w-full py-4 px-6 bg-[rgb(var(--color-header-bg))] border-b border-[rgb(var(--color-border))] sticky top-0 z-10 shadow-sm"
+  class="project-header w-full px-3 sm:px-6 bg-[rgba(var(--color-header-bg),0.94)] border-b border-[rgb(var(--color-border))] sticky top-0 z-30"
 >
   <div class="max-w-7xl mx-auto">
-    <nav class="flex items-center justify-between">
+    <nav class="min-h-20 flex items-center justify-between gap-4">
       <a
         href={homeUrl}
-        class="flex items-center gap-2 text-[rgb(var(--color-text))] no-underline hover:text-[rgb(var(--color-primary))] transition-colors"
+        class="flex items-center gap-3 text-[rgb(var(--color-text))] no-underline hover:text-[rgb(var(--color-primary))] transition-colors"
       >
-        <Icon
-          name="aperture"
-          class="h-8 w-8 text-[rgb(var(--color-primary))]"
-        />
-        <span class="m-0 text-xl font-bold"
-          ><span class="text-[rgb(var(--color-primary))]">Shutter</span><span
-            class="text-[rgb(var(--color-text))]">Bridge</span
-          ></span
-        >
+        <span class="project-mark"><Icon name="aperture" class="h-7 w-7" /></span>
+        <span class="brand-stack"><span class="project-name">SHUTTERBRIDGE</span><span class="project-parent">AN IBEXFUEL PROJECT</span></span>
       </a>
 
       <div
@@ -51,12 +44,13 @@ const links = [
       </div>
 
       <div class="hidden lg:flex items-center gap-2">
+        <a class="ibex-return" href="/">← IbexFuel</a>
         <LanguageSelector currentLang={lang} client:idle />
         <ThemeToggle client:idle />
         <Socials />
       </div>
 
-      <div class="lg:hidden flex items-center gap-2">
+      <div class="lg:hidden flex items-center gap-1">
         <LanguageSelector currentLang={lang} client:idle />
         <ThemeToggle client:idle />
         <button
@@ -94,6 +88,7 @@ const links = [
           >
           <Socials />
         </div>
+        <a class="ibex-return mobile-return" href="/">← Back to IbexFuel</a>
       </div>
     </div>
   </div>
@@ -137,3 +132,20 @@ const links = [
     }
   });
 </script>
+
+<style>
+  .project-header { backdrop-filter: blur(12px); }
+  .project-mark { width: 44px; height: 44px; display: grid; place-items: center; color: #f5f7f1; background: rgb(var(--color-primary)); border: 2px solid rgb(var(--color-primary)); border-radius: 5px; box-shadow: 5px 5px 0 rgb(var(--color-accent)); }
+  :global(html.dark) .project-mark { color: #16352f; }
+  .brand-stack { display: flex; flex-direction: column; line-height: 1; }
+  .project-name { font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; }
+  .project-parent { margin-top: .38rem; color: rgb(var(--color-text-muted)); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .58rem; font-weight: 700; letter-spacing: .12em; }
+  .ibex-return { min-height: 40px; display: inline-flex; align-items: center; padding: .45rem .75rem; border: 1px solid rgb(var(--color-border)); border-radius: 5px; color: rgb(var(--color-text)); font-size: .78rem; font-weight: 700; text-decoration: none; }
+  .ibex-return:hover { color: rgb(var(--color-text)); background: rgb(var(--color-secondary)); }
+  .mobile-return { width: 100%; justify-content: center; margin-top: 1rem; }
+  @media (max-width: 390px) {
+    .project-mark { width: 40px; height: 40px; box-shadow: 4px 4px 0 rgb(var(--color-accent)); }
+    .project-name { font-size: .88rem; }
+    .project-parent { font-size: .5rem; }
+  }
+</style>
