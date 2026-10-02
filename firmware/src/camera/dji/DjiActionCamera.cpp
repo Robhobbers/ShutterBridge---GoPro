@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "camera/BleTxPower.h"
+#include "config.h"
 #include "net/RadioCoex.h"
 
 namespace {
@@ -108,7 +109,7 @@ DjiActionCamera::DjiActionCamera(const char* macAddress) : mac_(macAddress ? mac
 }
 
 bool DjiActionCamera::begin() {
-    NimBLEDevice::init("ShutterBridge");
+    NimBLEDevice::init(BLE_DEVICE_NAME);
     applyBleTxPower();
     cb_ = new ClientCB(this);
     return attempt();

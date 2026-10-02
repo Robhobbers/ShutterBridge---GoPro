@@ -5,6 +5,7 @@
 #include <cstring>
 
 #include "camera/BleTxPower.h"
+#include "config.h"
 
 namespace {
     const NimBLEUUID UUID_SERVICE((uint16_t)0xFEA6);  // Control & Query
@@ -220,7 +221,7 @@ GoProCamera::GoProCamera(const char* macAddress, const char* namePrefix)
 }
 
 bool GoProCamera::begin() {
-    NimBLEDevice::init("ShutterBridge");
+    NimBLEDevice::init(BLE_DEVICE_NAME);
     applyBleTxPower();
     // GoPro requires a bonded (just-works) link; the first connect needs "Connect New Device"
     // on the camera

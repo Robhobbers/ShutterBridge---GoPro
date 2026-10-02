@@ -1,7 +1,8 @@
 #pragma once
 
-#define FW_VERSION "0.1.1-rob.2"
+#define FW_VERSION "0.1.1-rob.3"
 #define FW_VARIANT "Robhobbers/ShutterBridge---GoPro"
+#define BLE_DEVICE_NAME "IbexCam"
 #include "build_identity.h"
 
 #define FC_UART       Serial1

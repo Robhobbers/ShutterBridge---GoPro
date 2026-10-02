@@ -3,6 +3,7 @@
 #include <Arduino.h>
 
 #include "camera/BleTxPower.h"
+#include "config.h"
 #include "net/RadioCoex.h"
 
 namespace {
@@ -46,7 +47,7 @@ DjiOsmoCamera::DjiOsmoCamera(const char* macAddress, const char* namePrefix)
 }
 
 bool DjiOsmoCamera::begin() {
-    NimBLEDevice::init("ShutterBridge");
+    NimBLEDevice::init(BLE_DEVICE_NAME);
     applyBleTxPower();
     cb_ = new ClientCB(this);
     return attempt();
