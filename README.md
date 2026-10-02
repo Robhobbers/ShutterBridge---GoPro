@@ -37,6 +37,10 @@ links above target this fork at ibexfuel.com. See [website deployment](docs/WEBS
 for the Cloudflare setup. The installer lists only published releases from this fork;
 draft releases are not visible to visitors.
 
+For ongoing work, start with the [project context](docs/PROJECT_CONTEXT.md),
+[decisions](docs/DECISIONS.md), [known issues](docs/KNOWN_ISSUES.md) and
+[runbook](docs/RUNBOOK.md).
+
 ## What it does
 
 ShutterBridge runs on a small ESP32-S3 board wired to your flight controller. It
