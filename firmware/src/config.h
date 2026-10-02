@@ -1,6 +1,6 @@
 #pragma once
 
-#define FW_VERSION "0.1.1-rob.1"
+#define FW_VERSION "0.1.1-rob.2"
 #define FW_VARIANT "Robhobbers/ShutterBridge---GoPro"
 #include "build_identity.h"
 

@@ -3,6 +3,22 @@
 Changes specific to Robhobbers/ShutterBridge---GoPro are recorded here.
 Upstream attribution and the GPL-3.0-or-later license remain unchanged.
 
+## 0.1.1-rob.2 — 2026-10-02 (prerelease)
+
+### IbexFuel visual system
+
+- Restyle the on-device web interface with the shared alpine-green, mineral-white,
+  glacier, lichen and signal-orange IbexFuel palette.
+- Add a compact ShutterBridge / Ibex Labs lockup and camera-control mark while
+  keeping the technical project visually distinct from the nutrition brand.
+- Apply the site's square geometry, technical labels, grid texture and offset
+  signal-orange shadows to tabs, cards, buttons, live data and dialogs.
+- Preserve automatic light and dark themes, responsive phone layouts, visible
+  keyboard focus and reduced-motion support.
+
+This release changes the LittleFS web interface and version identity only. Camera,
+flight-controller, pairing and settings behaviour are unchanged from 0.1.1-rob.1.
+
 ## 0.1.1-rob.1 — 2026-10-01 (prerelease)
 
 ### Recording fixes
