@@ -12,7 +12,7 @@
 
   export let manifestUrl = "/firmware/manifest.dev.json";
 
-  type Part = { path: string; offset: number };
+  type Part = { path: string; offset: number; name?: string };
   type FlashSpec = {
     flashMode?: FlashOptions["flashMode"];
     flashFreq?: FlashOptions["flashFreq"];
@@ -144,6 +144,7 @@
           .map((a) => ({
             path: `/api/gh-asset?url=${encodeURIComponent(a.browser_download_url)}`,
             offset: OFFSETS[a.name],
+            name: a.name,
           }))
           .sort((a, b) => a.offset - b.offset),
       }))
@@ -177,9 +178,59 @@
         );
       }
       const data = new Uint8Array(await res.arrayBuffer());
+      validatePart(part, data, res.headers.get("content-type"));
       files.push({ data, address: part.offset });
     }
     return files;
+  }
+
+  function validatePart(part: Part, data: Uint8Array, contentType: string | null) {
+    const name =
+      part.name ??
+      part.path.split("/").pop()?.split("?")[0] ??
+      "firmware file";
+    const fail = () => {
+      throw new Error(
+        `${name} is not a valid firmware image. Nothing was written to your board.`,
+      );
+    };
+
+    if (
+      data.length < 4 ||
+      contentType?.toLowerCase().includes("text/html") ||
+      (data[0] === 0x3c && data[1] === 0x21)
+    ) {
+      fail();
+    }
+
+    switch (part.offset) {
+      case 0x0:
+      case 0x10000:
+        if (data.length < 4096 || data[0] !== 0xe9) fail();
+        break;
+      case 0x8000:
+        if (data.length !== 3072 || data[0] !== 0xaa || data[1] !== 0x50) fail();
+        break;
+      case 0xe000:
+        if (
+          data.length !== 8192 ||
+          data[0] !== 0x01 ||
+          data[1] !== 0x00 ||
+          data[2] !== 0x00 ||
+          data[3] !== 0x00
+        ) fail();
+        break;
+      case 0x310000:
+        if (
+          data.length < 4096 ||
+          data[0] !== 0x01 ||
+          data[1] !== 0x00 ||
+          new TextDecoder().decode(data.slice(8, 16)) !== "littlefs"
+        ) fail();
+        break;
+      default:
+        fail();
+    }
   }
 
   async function flash() {

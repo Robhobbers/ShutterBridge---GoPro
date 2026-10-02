@@ -11,6 +11,7 @@
 		// the on-demand [...path] page renders and can locale-detect. Image dirs
 		// under /docs are excluded so they stay served straight from the CDN.
 		"run_worker_first": [
+			"/api/*",
 			"/flash",
 			"/flash/",
 			"/docs",
